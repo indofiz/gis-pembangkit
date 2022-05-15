@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2022 at 03:31 AM
--- Server version: 10.4.22-MariaDB
--- PHP Version: 8.0.13
+-- Generation Time: May 15, 2022 at 07:53 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,9 +36,18 @@ CREATE TABLE `informasi_pembangkit` (
   `kapasitas` varchar(100) NOT NULL,
   `arus` varchar(10) NOT NULL,
   `tegangan` varchar(10) NOT NULL,
-  `daya aktif reaktif` varchar(100) NOT NULL,
-  `gambar` text NOT NULL
+  `daya_aktif_reaktif` varchar(100) NOT NULL,
+  `gambar` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `informasi_pembangkit`
+--
+
+INSERT INTO `informasi_pembangkit` (`id_pembangkit`, `nama_pembangkit`, `longitude`, `latitude`, `perusahaan`, `kapasitas`, `arus`, `tegangan`, `daya_aktif_reaktif`, `gambar`) VALUES
+(4, 'PLTU AIR ANYIR', '106.104154586792', '-2.1392961536902892', 'PLN', '1200', '1344', '220', '344', NULL),
+(5, 'PLTU AIR ANYIR', '106.104154586792', '-2.1392961536902892', 'PLN', '1200', '1344', '220', '344', NULL),
+(7, 'Pltn balunijuk', '106.07977867126466', '-2.062786655100321', 'Julian Corp', '12000000', '30023', '300', '340', NULL);
 
 -- --------------------------------------------------------
 
@@ -60,8 +69,14 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `username`, `password`, `status`, `level`) VALUES
 (1, 'admin', 'admin', 'aktif', 'admin'),
-(2, 'julian', 'julian', 'nonaktif', 'user'),
-(3, 'user', 'user', 'nonaktif', 'user');
+(2, 'julian', 'julian', 'aktif', 'user'),
+(3, 'user', 'user', 'aktif', 'user'),
+(7, 'root', '', 'nonaktif', 'user'),
+(8, 'root', '', 'nonaktif', 'user'),
+(9, 'root', '', 'nonaktif', 'user'),
+(10, 'root', '', 'nonaktif', 'user'),
+(11, 'root', '', 'nonaktif', 'user'),
+(12, 'root', '', 'nonaktif', 'user');
 
 -- --------------------------------------------------------
 
@@ -111,13 +126,13 @@ ALTER TABLE `user_data`
 -- AUTO_INCREMENT for table `informasi_pembangkit`
 --
 ALTER TABLE `informasi_pembangkit`
-  MODIFY `id_pembangkit` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pembangkit` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user_data`

@@ -25,17 +25,23 @@
                             <label for="nama-perusahaan">Tegangan <span class="text-danger">*</span></label>
                             <input type="number" name="tegangan" class="form-control" id="tegangan" placeholder="Masukan Besaran Tegangan" value="<?= isset($_POST['tegangan']) ? $_POST['tegangan'] : "" ;?>" required="">
                          </div>
+                         <div class="form-group">
+                            <label for="daya_aktif_reaktif">Daya Aktif Reaktif <span class="text-danger">*</span></label>
+                            <input type="number" name="daya_aktif_reaktif" class="form-control" id="daya_aktif_reaktif" placeholder="Masukan Daya Aktif Reaktif" value="<?= isset($_POST['daya_aktif_reaktif']) ? $_POST['daya_aktif_reaktif'] : "" ;?>" required="">
+                         </div>
                          <div class="row">
                              <div class="col">
                                  <div class="form-group">
-                                    <label for="longitude-input">Longitude <span class="text-danger">*</span></label>
-                                    <input type="text" name="longitude-input" class="form-control" id="longitude-input" placeholder="Longitude" value="<?= isset($_POST['longitude-input']) ? $_POST['longitude-input'] : "" ;?>" disabled="" required>
+                                    <label for="longitude_input">Longitude <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="longitude_input" placeholder="Longitude" value="<?= isset($_POST['longitude_input']) ? $_POST['longitude_input'] : "" ;?>" disabled>
+                                    <input type="hidden" name="longitude_input" id="longitude_input_h" value="<?= isset($_POST['longitude_input']) ? $_POST['longitude_input'] : "" ;?>" required="">
                                  </div>
                              </div>
                              <div class="col">
                                  <div class="form-group">
-                                    <label for="latitude-input">Latitude <span class="text-danger">*</span></label>
-                                    <input type="text" name="latitude-input" class="form-control" id="latitude-input" placeholder="Latitude" value="<?= isset($_POST['latitude-input']) ? $_POST['latitude-input'] : "" ;?>" disabled="" required>
+                                    <label for="latitude_input">Latitude <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="latitude_input" placeholder="Latitude" value="<?= isset($_POST['latitude_input']) ? $_POST['latitude_input'] : "" ;?>" disabled>
+                                    <input type="hidden" name="latitude_input" id="latitude_input_h" value="<?= isset($_POST['latitude_input']) ? $_POST['latitude_input'] : "" ;?>" required="">
                                  </div>
                              </div>
                          </div>
@@ -46,7 +52,7 @@
                      </form>
                  </div>
                  <div class="col-6">
-                     <div id="map" style="width: 600px; height: 400px;"></div>
+                     <div id="map" style="width: 100%; height: 550px;"></div>
 
                  </div>
              </div>
@@ -62,24 +68,45 @@
         $kapasitas          = mysqli_real_escape_string($db, $_POST['kapasitas']);
         $arus               = mysqli_real_escape_string($db, $_POST['arus']);
         $tegangan           = mysqli_real_escape_string($db, $_POST['tegangan']);
-        $longitude          = mysqli_real_escape_string($db, $_POST['longitude-input']);
-        $latitude           = mysqli_real_escape_string($db, $_POST['latitude-input']);
-        $query = mysqli_query($db, "INSERT INTO user(username,
-                                                 password,
-                                                 status,
-                                                 level) 
-                                          VALUES('$username',
-                                                 '$password',
-                                                 '$status',
-                                                 '$level')");
+        $daya_aktif_reaktif = mysqli_real_escape_string($db, $_POST['daya_aktif_reaktif']);
+        $longitude          = mysqli_real_escape_string($db, $_POST['longitude_input']);
+        $latitude           = mysqli_real_escape_string($db, $_POST['latitude_input']);
+        $query = mysqli_query($db, "INSERT INTO informasi_pembangkit(nama_pembangkit,
+                                                 longitude,
+                                                 latitude,
+                                                 perusahaan,
+                                                 kapasitas,
+                                                 arus,
+                                                 tegangan,
+                                                 daya_aktif_reaktif) 
+                                          VALUES('$nama_pembangkit',
+                                                 '$longitude',
+                                                 '$latitude',
+                                                 '$nama_perusahaan',
+                                                 '$kapasitas',
+                                                 '$arus',
+                                                 '$tegangan',
+                                                 '$daya_aktif_reaktif')");
 
         // cek hasil query
         if ($query) {
             // jika berhasil tampilkan pesan berhasil insert data
-            header('location: index.php?alert=2');
+            echo '<script type="text/javascript">';
+            echo "Swal.fire(
+              'Sukses!',
+              'Data berhasil ditambah!',
+              'success'
+            )";
+            echo "</script>";
         } else {
             // jika gagal tampilkan pesan kesalahan
-            header('location: register.php?alert=1');
+            echo '<script type="text/javascript">';
+            echo "Swal.fire(
+              'Gagal!',
+              'Data gagal ditambah!',
+              'error'
+            )";
+            echo "</script>";
         }
     }
 ?>

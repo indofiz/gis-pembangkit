@@ -1,12 +1,4 @@
- <!-- Aplikasi DIREKTORI
- ************************************************
- * Developer    : Juliansyah
- * Release Date : September 2021
- * E-mail       : juliansyah.ekt17@gmail.com
- * Phone        : +62-8317-5087-363
- * IG           : @julian.ui
- -->
-
+ 
  <?php
     //   $pages = $_GET['page'];
     //   $menu = $_GET['menu'];
@@ -23,7 +15,7 @@
              <h4>Data Pembangkit</h4>
              <div class="row">
                  <div class="col">
-                     <form class="form-inline" method="POST" action="dashboard.php?page=user&menu=tampil">
+                     <form class="form-inline" method="POST" action="dashboard.php">
                          <div class="form-group">
 
                              <div class="input-group mb-3">
@@ -37,40 +29,8 @@
                          </div>
                      </form>
                  </div>
-                 <!-- <div class="col text-right">
-                   <a class="btn btn-primary" href="?page=user&menu=tambah">
-                     + Tambah User
-                   </a>
-                 </div> -->
              </div>
          </div>
-
-         <?php
-            if (empty($_GET['alert'])) {
-                echo "";
-            } elseif ($_GET['alert'] == 1) {
-                echo "<div class='alert alert-danger alert-dismissible' role='alert'>
-            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-              <span aria-hidden='true'>&times;</span>
-            </button>
-            <strong><i class='fa fa-alert'></i> Gagal!</strong> Terjadi kesalahan.
-              </div>";
-            } elseif ($_GET['alert'] == 4) {
-                echo "<div class='alert alert-success alert-dismissible' role='alert'>
-            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-              <span aria-hidden='true'>&times;</span>
-            </button>
-            <strong><i class='fa fa-check-circle'></i> Sukses!</strong> Data user berhasil dihapus.
-          </div>";
-            } elseif ($_GET['alert'] == 3) {
-                echo "<div class='alert alert-success alert-dismissible' role='alert'>
-            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-              <span aria-hidden='true'>&times;</span>
-            </button>
-            <strong><i class='fa fa-check-circle'></i> Sukses!</strong> Data password berhasil direset.
-          </div>";
-            }
-            ?>
          <div class="panel panel-default">
              <div class="panel-body">
                  <div class="table-responsive">
@@ -115,33 +75,19 @@
                                 }
 
                                 while ($data = mysqli_fetch_assoc($query)) {
-                                    if ($data['status'] == 'aktif') {
-                                        $checked = ' checked';
-                                    } else {
-                                        $checked = '';
-                                    }
 
                                     echo "  <tr>
                       <td width='50' class='center'>$no</td>
-                      <td width='60'>$data[username]</td>
-                      <td width='150'><div class='custom-control custom-switch'>
-                      <input type='checkbox' class='custom-control-input btn-status' id='$data[id]' $checked>
-                      <label class='custom-control-label' id='label$data[id]' for='$data[id]'>$data[status]</label>
-                    </div></td>
+                      <td width='60'>$data[nama_pembangkit]</td>
+                      <td width='150'>$data[kapasitas]</td>
 
                       <td width='120'>
                         <div class=''>";
                                 ?>
-                                 <a data-toggle="tooltip" data-placement="top" title="Hapus" class="btn btn-danger btn-sm" href="admin/proses-hapus-user.php?id=<?php echo $data['id']; ?>" onclick="return confirm('Anda yakin ingin menghapus user <?php echo $data['username']; ?>?');">
+                                 <a data-toggle="tooltip" data-placement="top" title="Hapus" class="btn btn-danger btn-sm" href="admin/proses-hapus.php?id=<?php echo $data['id_pembangkit']; ?>" onclick="return confirm('Anda yakin ingin menghapus user <?php echo $data['nama_pembangkit']; ?>?');">
                                      <i class="fa fa-trash"></i>
                                  </a>
-
-                                 <button type="button" class="btn btn-primary btn-sm resetPassword" data-id="<?php echo $data['id']; ?>" data-toggle="modal" data-target="#ubahPassword">
-                                     <i class="fa fa-key"></i>
-                                 </button>
-                                 <button type="button" class="btn btn-success btn-sm dataUser" data-id="<?php echo $data['id']; ?>" id="lihat<?php echo $data['id']; ?>" data-toggle="modal" data-target="#lihatData" <?php echo ($data['status'] == 'nonaktif' ? " disabled" : ""); ?>>
-                                     <i class="fa fa-eye"></i>
-                                 </button>
+                                 <a class="btn btn-success btn-sm" href="dashboard.php?url=detail&id=<?php echo $data['id_pembangkit']; ?>"><i class="fa fa-eye"></i></a>
                              <?php
                                     echo "
                         </div>
@@ -222,56 +168,32 @@
      </div> <!-- /.col -->
  </div> <!-- /.row -->
 
- <div class="modal fade" id="lihatData" tabindex="-1" role="dialog" aria-labelledby="lihatData" aria-hidden="true">
-     <div class="modal-dialog" role="document">
-         <div class="modal-content">
-             <div class="modal-header">
-                 <h5 class="modal-title" id="exampleModalLabel">Data User</h5>
-                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                     <span aria-hidden="true">&times;</span>
-                 </button>
-             </div>
-             <div class="modal-body" id="lihatDataUser">
-
-             </div>
-             <div class="modal-footer">
-                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-             </div>
-         </div>
-     </div>
- </div>
- <div class="modal fade" id="ubahPassword" tabindex="-1" role="dialog" aria-labelledby="ubahPassword" aria-hidden="true">
-     <div class="modal-dialog" role="document">
-         <form action="admin/reset-password.php" method="POST">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <h5 class="modal-title" id="exampleModalLabel">Reset Password</h5>
-                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                         <span aria-hidden="true">&times;</span>
-                     </button>
-                 </div>
-                 <div class="modal-body">
-                     <div class="form-group">
-                         <label for="password">Password Baru</label>
-                         <input type="password" class="form-control" id="passwordReset" placeholder="Password" name="password" required>
-                         <input type="hidden" class="form-control" id="idForReset" name="id">
-                     </div>
-                 </div>
-                 <div class="modal-footer">
-                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                     <button type="submit" class="btn btn-primary">Simpan</button>
-                 </div>
-             </div>
-         </form>
-     </div>
- </div>
-
+ 
  <script type="text/javascript">
+    const getUrl = window.location.search;
+    const urlParams = new URLSearchParams(getUrl);
+    const alert = urlParams.get('alert')
      let btnstatus = document.querySelectorAll('.btn-status');
      let resetPassword = document.querySelectorAll('.resetPassword');
      let dataUser = document.querySelectorAll('.dataUser');
      let passwordReset = document.getElementById('idForReset');
      let lihatDataUser = document.getElementById('lihatDataUser');
+
+     if(alert){
+        if (alert == 4) {
+            Swal.fire(
+              'Sukses!',
+              'Data berhasil dihapus!',
+              'success'
+            )
+        }else if (alert == 3) {
+            Swal.fire(
+              'Sukses!',
+              'Data berhasil diubah!',
+              'success'
+            )
+        }
+     }
      btnstatus.forEach(function(element) {
          element.addEventListener(`click`, function() {
 
@@ -296,14 +218,6 @@
          });
      });
 
-     resetPassword.forEach(function(element) {
-         element.addEventListener(`click`, function() {
-
-             //  console.log(+this.dataset.id);
-             passwordReset.value = +this.dataset.id;
-
-         });
-     });
      dataUser.forEach(function(element) {
          element.addEventListener(`click`, function() {
              //  console.log(+this.dataset.id);

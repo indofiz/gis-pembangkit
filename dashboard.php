@@ -43,6 +43,8 @@
    <link rel="stylesheet" href="assets/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
    <link href="assets/css/datepicker.min.css" rel="stylesheet">
    <link href="assets/css/fontawesome/css/all.min.css" rel="stylesheet">
+   <link href="assets/sweetalert/sweetalert2.min.css" rel="stylesheet">
+   <script src="assets/sweetalert/sweetalert2.all.min.js"></script>
    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
 
@@ -96,13 +98,14 @@
    <nav class="navbar navbar-dark bg-primary">
      <div class="container">
        <span class="navbar-brand mb-0 h1">
-         <a href="../index.php" style="color: #fff;font-weight:600">
+         <a href="index.php" style="color: #fff;font-weight:600">
            GIS PEMBANGKIT
          </a>
        </span>
        <div class="row">
          <div class="col">
-           <a href="dashboard.php?url=tambah-pembangkit" class="btn btn-success"> <i class="fa fa-plus"></i> Tambah Pembangkit</a>
+           <a href="dashboard.php?url=tampil" class="btn btn-warning">Dashboard</a>
+           <a href="dashboard.php?url=tambah" class="btn btn-success"> <i class="fa fa-plus"></i> Tambah Pembangkit</a>
            <a href="logout.php" class="btn btn-danger"> <i class="fa fa-sign-out"></i> Logout</a>
          </div>
        </div>
@@ -111,14 +114,19 @@
 
    <div class="container">
      <?php
-     $url = isset($_GET['url']);
-      if ($url == 'tambah-pembangkit') {
-        include "admin/tambah-data.php";
-      } elseif ($url == 'user') {
-        include "user/tampil.php";
-      }else{
-        include "admin/tampil-list.php";
-      }
+     if(isset($_GET['url'])){
+        $url = $_GET['url'];
+        if ($url == 'tampil') {
+          include "admin/tampil-list.php";
+        } elseif ($url == 'detail') {
+          include "admin/lihat-data-pembangkit.php";
+        }elseif ($url == 'tambah'){
+          include "admin/tambah-data.php";
+        }
+     }else{
+        header('location: dashboard.php?url=tampil');
+     }
+      
       ?>
    </div> <!-- /.container-fluid -->
 
@@ -138,28 +146,35 @@
    <!-- MAP -->
    <script>
       //INSERT DATA
-      const longitude = document.getElementById('longitude-input');
-      const latitude = document.getElementById('latitude-input');
-      var map = L.map('map').setView([-2.120096, 106.113553], 13);
+      const longitude = document.getElementById('longitude_input');
+      const longitude_h = document.getElementById('longitude_input_h');
+      const latitude = document.getElementById('latitude_input');
+      const latitude_h = document.getElementById('latitude_input_h');
+      if(document.getElementById('map')){
+        var map = L.map('map').setView([-2.120096, 106.113553], 13);
 
-      var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-        maxZoom: 20,
-        attribution: 'GIS',
-        id: 'mapbox/streets-v11',
-        tileSize: 512,
-        zoomOffset: -1
-      }).addTo(map);
+        var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+          maxZoom: 20,
+          attribution: 'GIS',
+          id: 'mapbox/streets-v11',
+          tileSize: 512,
+          zoomOffset: -1
+        }).addTo(map);
 
-      var marker = {};
-      map.on('click', function(e) {
-        if (marker != undefined) {
-              map.removeLayer(marker);
-        };
-        longitude.value = e.latlng.lng;
-        latitude.value = e.latlng.lat;
-        marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
-        .bindPopup(`Latitude: ${e.latlng.lat} <br /> Longitude: ${e.latlng.lng}`).openPopup();
-      });
+        var marker = {};
+        map.on('click', function(e) {
+          if (marker != undefined) {
+                map.removeLayer(marker);
+          };
+          longitude.value = e.latlng.lng;
+          longitude_h.value = e.latlng.lng;
+          latitude.value = e.latlng.lat;
+          latitude_h.value = e.latlng.lat;
+          marker = L.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
+          .bindPopup(`Latitude: ${e.latlng.lat} <br /> Longitude: ${e.latlng.lng}`).openPopup();
+        });
+      }
+      
    </script>
  </body>
 
