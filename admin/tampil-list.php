@@ -1,4 +1,3 @@
- 
  <?php
     //   $pages = $_GET['page'];
     //   $menu = $_GET['menu'];
@@ -15,9 +14,8 @@
              <h4>Data Pembangkit</h4>
              <div class="row">
                  <div class="col">
-                     <form class="form-inline" method="POST" action="dashboard.php">
+                     <form class="form-inline" method="post" action="dashboard.php?url=tampil">
                          <div class="form-group">
-
                              <div class="input-group mb-3">
                                  <div class="input-group-prepend">
                                      <span class="input-group-text" id="basic-addon1">
@@ -40,6 +38,9 @@
                                  <th>No</th>
                                  <th>Nama Pembangkit</th>
                                  <th>Kapasitas</th>
+                                 <th>Arus</th>
+                                 <th>Tegangan</th>
+                                 <th>Daya Aktif Reaktif</th>
                                  <th>Aksi</th>
                              </tr>
                          </thead>
@@ -80,6 +81,9 @@
                       <td width='50' class='center'>$no</td>
                       <td width='60'>$data[nama_pembangkit]</td>
                       <td width='150'>$data[kapasitas]</td>
+                      <td width='150'>$data[arus]</td>
+                      <td width='150'>$data[tegangan]</td>
+                      <td width='150'>$data[daya_aktif_reaktif]</td>
 
                       <td width='120'>
                         <div class=''>";
@@ -88,6 +92,7 @@
                                      <i class="fa fa-trash"></i>
                                  </a>
                                  <a class="btn btn-success btn-sm" href="dashboard.php?url=detail&id=<?php echo $data['id_pembangkit']; ?>"><i class="fa fa-eye"></i></a>
+                                 <a class="btn btn-info btn-sm" href="dashboard.php?url=edit&id=<?php echo $data['id_pembangkit']; ?>"><i class="fa fa-pencil"></i></a>
                              <?php
                                     echo "
                         </div>
@@ -168,31 +173,31 @@
      </div> <!-- /.col -->
  </div> <!-- /.row -->
 
- 
+
  <script type="text/javascript">
-    const getUrl = window.location.search;
-    const urlParams = new URLSearchParams(getUrl);
-    const alert = urlParams.get('alert')
+     const getUrl = window.location.search;
+     const urlParams = new URLSearchParams(getUrl);
+     const alert = urlParams.get('alert')
      let btnstatus = document.querySelectorAll('.btn-status');
      let resetPassword = document.querySelectorAll('.resetPassword');
      let dataUser = document.querySelectorAll('.dataUser');
      let passwordReset = document.getElementById('idForReset');
      let lihatDataUser = document.getElementById('lihatDataUser');
 
-     if(alert){
-        if (alert == 4) {
-            Swal.fire(
-              'Sukses!',
-              'Data berhasil dihapus!',
-              'success'
-            )
-        }else if (alert == 3) {
-            Swal.fire(
-              'Sukses!',
-              'Data berhasil diubah!',
-              'success'
-            )
-        }
+     if (alert) {
+         if (alert == 4) {
+             Swal.fire(
+                 'Sukses!',
+                 'Data berhasil dihapus!',
+                 'success'
+             )
+         } else if (alert == 3) {
+             Swal.fire(
+                 'Sukses!',
+                 'Data berhasil diubah!',
+                 'success'
+             )
+         }
      }
      btnstatus.forEach(function(element) {
          element.addEventListener(`click`, function() {

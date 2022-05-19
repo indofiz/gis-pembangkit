@@ -112,6 +112,8 @@ if ($row['level'] == 'user') {
         include "admin/lihat-data-pembangkit.php";
       } elseif ($url == 'tambah') {
         include "admin/tambah-data.php";
+      } elseif ($url == 'edit') {
+        include "admin/edit-data.php";
       }
     } else {
       header('location: dashboard.php?url=tampil');
@@ -120,7 +122,7 @@ if ($row['level'] == 'user') {
     ?>
   </div> <!-- /.container-fluid -->
 
-  <footer class="footer">
+  <footer class="footer p-2 mt-5" style="border-top: 1px solid #ddd;">
     <div class="container">
       <p class="text-muted text-center">&copy; 2022 Taruna</p>
     </div>
@@ -154,7 +156,7 @@ if ($row['level'] == 'user') {
       map.on('click', function(e) {
         if (marker != undefined) {
           map.removeLayer(marker);
-        };
+        }
         longitude.value = e.latlng.lng;
         longitude_h.value = e.latlng.lng;
         latitude.value = e.latlng.lat;
