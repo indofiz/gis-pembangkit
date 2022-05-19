@@ -81,7 +81,7 @@
         </nav>
 
 
-        <div class="content-wrapper">
+        <div class="content-wrapper pb-5">
 
             <div class="content-header">
 
@@ -91,32 +91,43 @@
             <div class="content">
                 <div class="container">
                     <div class="row">
-                        <div class="col-lg-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">
-                                        Some quick example text to build on the card title and make up the bulk of the card's
-                                        content.
-                                    </p>
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
-                                </div>
-                            </div>
+                        <div class="col-lg-4" id="side_info" style="transition: display ease-in-out 0.3s">
                             <div class="card card-primary card-outline">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">
-                                        Some quick example text to build on the card title and make up the bulk of the card's
-                                        content.
-                                    </p>
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
+                                <div class="card-body" id="card_pembangkit">
+                                    <div class="row">
+                                        <h5 class="card-title d-block col-12 mb-4 font-weight-bold text-center" id="card_nama_pembangkit"></h5>
+                                        <img src="" class="img-fluid col-12 mb-3" id="card_gambar" alt="Pembangkit" style="display: none;">
+                                        <div class="col-6 px-1">
+                                            <div class="bg-light px-3 py-2 border border-primary rounded">
+                                                <h6 class="font-weight-bold">Tegangan</h6>
+                                                <h4><span id="tegangan"></span> V</h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 px-1">
+                                            <div class="bg-light px-3 py-2 border border-success rounded">
+                                                <h6 class="font-weight-bold">Arus</h6>
+                                                <h4><span id="arus"></span> I</h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 px-1">
+                                            <div class="bg-light mt-2 px-3 py-2 border border-success rounded">
+                                                <h6 class="font-weight-bold">Kapasitas</h6>
+                                                <h4><span id="kapasitas"></span> MW</h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 px-1">
+                                            <div class="bg-light mt-2 px-3 py-2 border border-primary rounded">
+                                                <h6 class="font-weight-bold">Daya Aktif Reaktif</h6>
+                                                <h4><span id="daya_aktif_reaktif"></span> VAR</h4>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
 
-                        <div class="col-lg-8">
+                        <div class="col-lg-8" id="map_container" style="transition: all ease-in-out 0.1s">
                             <div id="map_info" style="width: 100%; height: 550px;"></div>
                         </div>
 
@@ -146,6 +157,15 @@
 
     <script src="assets/adminlte/js/adminlte.min.js?v=3.2.0"></script>
     <script>
+        const side_info = document.getElementById('side_info');
+        const kapasitas_i = document.getElementById('kapasitas');
+        const tegangan_i = document.getElementById('tegangan');
+        const arus_i = document.getElementById('arus');
+        const daya_aktif_reaktif_i = document.getElementById('daya_aktif_reaktif');
+        side_info.style.display = 'none'
+        const map_container = document.getElementById('map_container');
+        map_container.classList.replace('col-lg-8','col-lg-12');
+        //Nampilin Peta
         var map = L.map('map_info').setView([-2.120096, 106.113553], 9);
 
         var tiles = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
@@ -155,6 +175,52 @@
             tileSize: 512,
             zoomOffset: -1
         }).addTo(map);
+
+        //Ambil Data Pembangkit
+        async function getPembangkit() {
+            let url = 'data/list_pembangkit.php';
+            try {
+                let res = await fetch(url);
+                return await res.json();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        async function renderPembangkit() {
+            let pembangkit = await getPembangkit();
+            let html = '';
+            let marker;
+            if (pembangkit.status == 200) {
+                pembangkit.data.forEach(pem => {
+                    const id_pembangkit = pem.id_pembangkit;
+                    const nama_pembangkit = pem.nama_pembangkit;
+                    const gambar = pem.gambar;
+                    const perusahaan = pem.perusahaan;
+                    const tegangan = pem.tegangan;
+                    const arus = pem.arus;
+                    const daya_aktif_reaktif = pem.daya_aktif_reaktif;
+                    const kapasitas = pem.kapasitas;
+                    // DOCUMENT
+                    const card_nama_pembangkit = document.getElementById('card_nama_pembangkit');
+                    const card_gambar = document.getElementById('card_gambar');
+                    marker = new L.marker([pem.latitude, pem.longitude])
+                    .bindPopup(pem.nama_pembangkit)
+                    .addTo(map).on('click', function(e) {
+                        map_container.classList.replace('col-lg-12','col-lg-8');
+                        side_info.style.display = 'block';
+                        card_nama_pembangkit.innerHTML = nama_pembangkit;
+                        kapasitas_i.innerHTML = kapasitas;
+                        arus_i.innerHTML = arus;
+                        tegangan_i.innerHTML = tegangan;
+                        daya_aktif_reaktif_i.innerHTML = daya_aktif_reaktif;
+                        card_gambar.style.display = 'block';
+                        card_gambar.src = gambar;
+                    });
+                });
+            }
+            
+        }
+        renderPembangkit();
     </script>
 
 </body>

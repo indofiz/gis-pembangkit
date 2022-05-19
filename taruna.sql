@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2022 at 07:53 PM
+-- Generation Time: May 19, 2022 at 10:09 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -40,15 +40,6 @@ CREATE TABLE `informasi_pembangkit` (
   `gambar` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `informasi_pembangkit`
---
-
-INSERT INTO `informasi_pembangkit` (`id_pembangkit`, `nama_pembangkit`, `longitude`, `latitude`, `perusahaan`, `kapasitas`, `arus`, `tegangan`, `daya_aktif_reaktif`, `gambar`) VALUES
-(4, 'PLTU AIR ANYIR', '106.104154586792', '-2.1392961536902892', 'PLN', '1200', '1344', '220', '344', NULL),
-(5, 'PLTU AIR ANYIR', '106.104154586792', '-2.1392961536902892', 'PLN', '1200', '1344', '220', '344', NULL),
-(7, 'Pltn balunijuk', '106.07977867126466', '-2.062786655100321', 'Julian Corp', '12000000', '30023', '300', '340', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -70,28 +61,7 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`id`, `username`, `password`, `status`, `level`) VALUES
 (1, 'admin', 'admin', 'aktif', 'admin'),
 (2, 'julian', 'julian', 'aktif', 'user'),
-(3, 'user', 'user', 'aktif', 'user'),
-(7, 'root', '', 'nonaktif', 'user'),
-(8, 'root', '', 'nonaktif', 'user'),
-(9, 'root', '', 'nonaktif', 'user'),
-(10, 'root', '', 'nonaktif', 'user'),
-(11, 'root', '', 'nonaktif', 'user'),
-(12, 'root', '', 'nonaktif', 'user');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `user_data`
---
-
-CREATE TABLE `user_data` (
-  `data_id` int(10) NOT NULL,
-  `id` int(10) NOT NULL,
-  `nama` varchar(10) NOT NULL,
-  `nim` int(10) NOT NULL,
-  `foto` text NOT NULL,
-  `ijazah` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+(3, 'user', 'user', 'aktif', 'user');
 
 --
 -- Indexes for dumped tables
@@ -112,13 +82,6 @@ ALTER TABLE `user`
   ADD KEY `username_2` (`username`);
 
 --
--- Indexes for table `user_data`
---
-ALTER TABLE `user_data`
-  ADD PRIMARY KEY (`data_id`),
-  ADD KEY `id` (`id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -126,29 +89,13 @@ ALTER TABLE `user_data`
 -- AUTO_INCREMENT for table `informasi_pembangkit`
 --
 ALTER TABLE `informasi_pembangkit`
-  MODIFY `id_pembangkit` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_pembangkit` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `user_data`
---
-ALTER TABLE `user_data`
-  MODIFY `data_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `user_data`
---
-ALTER TABLE `user_data`
-  ADD CONSTRAINT `user_data_ibfk_1` FOREIGN KEY (`id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
