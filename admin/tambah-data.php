@@ -24,18 +24,35 @@
                             <label for="nama-perusahaan">Kapasitas <span class="text-danger">*</span></label>
                             <input type="number" name="kapasitas" class="form-control" id="kapasitas" placeholder="Masukan Besaran Kapasitas" value="<?= isset($_POST['kapasitas']) ? $_POST['kapasitas'] : ""; ?>" required="">
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="nama-perusahaan">Bahan bakar <span class="text-danger">*</span></label>
+                            <input type="text" name="bahan_bakar" class="form-control" id="bahan_bakar" placeholder="Masukan Bahan Bakar" value="<?= isset($_POST['bahan_bakar']) ? $_POST['bahan_bakar'] : ""; ?>" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="nama-perusahaan">Tipe Pembangkit <span class="text-danger">*</span></label>
+                            <select class="form-control" id="tipe_pembangkit" name="tipe">
+                              <option value="1">Pembelian IPP</option>
+                              <option value="2">Pembangkit Grid Sendiri</option>
+                              <option value="3">Pembangkit Sewa</option>
+                            </select>
+                        </div>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" name="isolated" type="checkbox" value="true" id="isIsolated" disabled>
+                            <label class="form-check-label" for="isIsolated">
+                                Apakah Ini Pembangkit Isolated?
+                            </label>
+                        </div>
                         <div class="form-group">
                             <label for="nama-perusahaan">Arus <span class="text-danger">*</span></label>
                             <input type="number" name="arus" class="form-control" id="arus" placeholder="Masukan Besaran Arus" value="<?= isset($_POST['arus']) ? $_POST['arus'] : ""; ?>" required="">
                         </div>
+
                         <div class="form-group">
                             <label for="nama-perusahaan">Tegangan <span class="text-danger">*</span></label>
                             <input type="number" name="tegangan" class="form-control" id="tegangan" placeholder="Masukan Besaran Tegangan" value="<?= isset($_POST['tegangan']) ? $_POST['tegangan'] : ""; ?>" required="">
                         </div>
-                        <div class="form-group">
-                            <label for="daya_aktif_reaktif">Daya Aktif Reaktif <span class="text-danger">*</span></label>
-                            <input type="number" name="daya_aktif_reaktif" class="form-control" id="daya_aktif_reaktif" placeholder="Masukan Daya Aktif Reaktif" value="<?= isset($_POST['daya_aktif_reaktif']) ? $_POST['daya_aktif_reaktif'] : ""; ?>" required="">
-                        </div>
+                        
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
@@ -81,9 +98,12 @@ if (isset($_POST['submit'])) {
     $kapasitas          = mysqli_real_escape_string($db, $_POST['kapasitas']);
     $arus               = mysqli_real_escape_string($db, $_POST['arus']);
     $tegangan           = mysqli_real_escape_string($db, $_POST['tegangan']);
-    $daya_aktif_reaktif = mysqli_real_escape_string($db, $_POST['daya_aktif_reaktif']);
+    $bahan_bakar        = mysqli_real_escape_string($db, $_POST['bahan_bakar']);
+    $tipe               = mysqli_real_escape_string($db, $_POST['tipe']);
+    $isolated           = (isset($_POST['isolated']) == true) ? true : false;
     $longitude          = mysqli_real_escape_string($db, $_POST['longitude_input']);
     $latitude           = mysqli_real_escape_string($db, $_POST['latitude_input']);
+
     if ($_FILES['gambar']['name'] == "") {
         $dst_db = "assets/img/foto/default.jpg";
     } else {
@@ -105,7 +125,9 @@ if (isset($_POST['submit'])) {
                                                  kapasitas,
                                                  arus,
                                                  tegangan,
-                                                 daya_aktif_reaktif,
+                                                 bahan_bakar,
+                                                 tipe,
+                                                 isolated,
                                                  gambar) 
                                           VALUES('$nama_pembangkit',
                                                  '$longitude',
@@ -114,7 +136,9 @@ if (isset($_POST['submit'])) {
                                                  '$kapasitas',
                                                  '$arus',
                                                  '$tegangan',
-                                                 '$daya_aktif_reaktif',
+                                                 '$bahan_bakar',
+                                                 '$tipe',
+                                                 '$isolated',
                                                  '$dst_db')");
 
     // cek hasil query
@@ -139,3 +163,23 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
+
+
+
+
+<script type="text/javascript">
+    const tipe_pembangkit = document.getElementById('tipe_pembangkit');
+    const isolated = document.getElementById('isIsolated');
+
+    tipe_pembangkit.addEventListener('change', function(event) {
+        event.preventDefault();
+        let tipe = this.value;
+        if (tipe == 2) {
+            isolated.disabled = false;
+        }else{
+            isolated.disabled = true;
+        }
+    });
+
+
+</script>

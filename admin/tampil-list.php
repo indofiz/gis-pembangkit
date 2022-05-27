@@ -40,7 +40,9 @@
                                  <th>Kapasitas</th>
                                  <th>Arus</th>
                                  <th>Tegangan</th>
-                                 <th>Daya Aktif Reaktif</th>
+                                 <th>Jenis</th>
+                                 <th>Isolated</th>
+                                 <th>Bahan Bakar</th>
                                  <th>Aksi</th>
                              </tr>
                          </thead>
@@ -76,14 +78,24 @@
                                 }
 
                                 while ($data = mysqli_fetch_assoc($query)) {
+                                    if ($data['tipe'] == 1) {
+                                        $tipe = 'Pembelian IPP';
+                                    }elseif ($data['tipe'] == 2) {
+                                        $tipe = 'Pembangkit Sendiri Grid';
+                                    }else{
+                                        $tipe = 'Pembangkit Sewa';
+                                    }
 
+                                    $isolated = ($data['isolated'] == true) ? 'Isolated' : '-';
                                     echo "  <tr>
                       <td width='50' class='center'>$no</td>
                       <td width='60'>$data[nama_pembangkit]</td>
-                      <td width='150'>$data[kapasitas]</td>
-                      <td width='150'>$data[arus]</td>
-                      <td width='150'>$data[tegangan]</td>
-                      <td width='150'>$data[daya_aktif_reaktif]</td>
+                      <td width='150'>$data[kapasitas] <strong>MW</strong></td>
+                      <td width='150'>$data[arus] <strong>I</strong></td>
+                      <td width='150'>$data[tegangan] <strong>V</strong></td>
+                      <td width='150'>$tipe</td>
+                      <td width='150'>$isolated</td>
+                      <td width='150'>$data[bahan_bakar]</td>
 
                       <td width='120'>
                         <div class=''>";

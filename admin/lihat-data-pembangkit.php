@@ -15,7 +15,15 @@ if ($id) {
         $arus               = $data['arus'];
         $tegangan           = $data['tegangan'];
         $gambar             = $data['gambar'];
-        $daya_aktif_reaktif = $data['daya_aktif_reaktif'];
+        $bahan_bakar        = $data['bahan_bakar'];
+        $isolated           = ($data['isolated'] == true) ? 'Isolated' : '-';
+        if ($data['tipe'] == 1) {
+            $tipe = 'Pembelian IPP';
+        }elseif ($data['tipe'] == 2) {
+            $tipe = 'Pembangkit Sendiri Grid';
+        }else{
+            $tipe = 'Pembangkit Sewa';
+        }
 ?>
         <div class="row">
             <div class="col-md-6 mx-auto">
@@ -28,12 +36,16 @@ if ($id) {
                 <?= $perusahaan; ?>
                 <div class="font-weight-bold mt-4 mb-2">Kapasitas:</div>
                 <?= $kapasitas; ?>
+                <div class="font-weight-bold mt-4 mb-2">Bahan Bakar:</div>
+                <?= $bahan_bakar; ?>
+                <div class="font-weight-bold mt-4 mb-2">Tipe:</div>
+                <?= $tipe; ?>
+                <div class="font-weight-bold mt-4 mb-2">Isolated:</div>
+                <?= $isolated; ?>
                 <div class="font-weight-bold mt-4 mb-2">Arus:</div>
                 <?= $arus; ?>
                 <div class="font-weight-bold mt-4 mb-2">Tegangan:</div>
                 <?= $tegangan; ?>
-                <div class="font-weight-bold mt-4 mb-2">Daya Aktif Reaktif:</div>
-                <?= $daya_aktif_reaktif; ?>
                 <div class="font-weight-bold mt-4 mb-2">Lokasi:</div>
                 <div id="map_detail" style="width: 100%; height: 450px;"></div>
                 <script>

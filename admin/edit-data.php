@@ -10,7 +10,9 @@ if (mysqli_num_rows($pembangkit) > 0) {
         $kapasitas   = $data['kapasitas'];
         $arus   = $data['arus'];
         $tegangan   = $data['tegangan'];
-        $daya_aktif_reaktif   = $data['daya_aktif_reaktif'];
+        $tipe   = $data['tipe'];
+        $isolated   = $data['isolated'];
+        $bahan_bakar   = $data['bahan_bakar'];
         $gambar_ori   = $data['gambar'];
         $gambar   = explode("/", $data['gambar']);
         $gambar = end($gambar);
@@ -37,41 +39,57 @@ if (mysqli_num_rows($pembangkit) > 0) {
                         </div>
                         <div class="form-group">
                             <label for="nama-pembangkit">Nama Pembangkit <span class="text-danger">*</span></label>
-                            <input type="text" value="<?= $nama_pembangkit; ?>" name="nama-pembangkit" class="form-control" id="nama-pembangkit" placeholder="Masukan Nama Pembangkit" value="<?= isset($_POST['nama-pembangkit']) ? $_POST['nama-pembangkit'] : ""; ?>" required="">
+                            <input type="text" value="<?= $nama_pembangkit; ?>" name="nama-pembangkit" class="form-control" id="nama-pembangkit" placeholder="Masukan Nama Pembangkit" required="">
                         </div>
                         <div class="form-group">
                             <label for="nama-perusahaan">Nama Perusahaan <span class="text-danger">*</span></label>
-                            <input type="text" value="<?= $perusahaan; ?>" name="nama-perusahaan" class="form-control" id="nama-perusahaan" placeholder="Masukan Nama Perusahaan" value="<?= isset($_POST['nama-perusahaan']) ? $_POST['nama-perusahaan'] : ""; ?>" required="">
+                            <input type="text" value="<?= $perusahaan; ?>" name="nama-perusahaan" class="form-control" id="nama-perusahaan" placeholder="Masukan Nama Perusahaan" required="">
                         </div>
                         <div class="form-group">
                             <label for="nama-perusahaan">Kapasitas <span class="text-danger">*</span></label>
-                            <input type="number" value="<?= $kapasitas; ?>" name="kapasitas" class="form-control" id="kapasitas" placeholder="Masukan Besaran Kapasitas" value="<?= isset($_POST['kapasitas']) ? $_POST['kapasitas'] : ""; ?>" required="">
+                            <input type="number" value="<?= $kapasitas; ?>" name="kapasitas" class="form-control" id="kapasitas" placeholder="Masukan Besaran Kapasitas" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="nama-perusahaan">Bahan bakar <span class="text-danger">*</span></label>
+                            <input type="text" name="bahan_bakar" class="form-control" id="bahan_bakar" placeholder="Masukan Bahan Bakar" value="<?=$bahan_bakar;?>" required="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nama-perusahaan">Tipe Pembangkit <span class="text-danger">*</span></label>
+                            <select class="form-control" id="tipe_pembangkit" name="tipe">
+                              <option value="1" <?=($tipe == 1) ? 'selected' : null?>>Pembelian IPP</option>
+                              <option value="2" <?=($tipe == 2) ? 'selected' : null?>>Pembangkit Grid Sendiri</option>
+                              <option value="3" <?=($tipe == 3) ? 'selected' : null?>>Pembangkit Sewa</option>
+                            </select>
+                        </div>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" name="isolated" type="checkbox" value="true" id="isIsolated" <?=($isolated == true) ? 'checked' : 'disabled'?>>
+                            <label class="form-check-label" for="isIsolated">
+                                Apakah Ini Pembangkit Isolated?
+                            </label>
                         </div>
                         <div class="form-group">
                             <label for="nama-perusahaan">Arus <span class="text-danger">*</span></label>
-                            <input type="number" value="<?= $arus; ?>" name="arus" class="form-control" id="arus" placeholder="Masukan Besaran Arus" value="<?= isset($_POST['arus']) ? $_POST['arus'] : ""; ?>" required="">
+                            <input type="number" value="<?= $arus; ?>" name="arus" class="form-control" id="arus" placeholder="Masukan Besaran Arus" required="">
                         </div>
                         <div class="form-group">
                             <label for="nama-perusahaan">Tegangan <span class="text-danger">*</span></label>
-                            <input type="number" value="<?= $tegangan; ?>" name="tegangan" class="form-control" id="tegangan" placeholder="Masukan Besaran Tegangan" value="<?= isset($_POST['tegangan']) ? $_POST['tegangan'] : ""; ?>" required="">
+                            <input type="number" value="<?= $tegangan; ?>" name="tegangan" class="form-control" id="tegangan" placeholder="Masukan Besaran Tegangan" required="">
                         </div>
-                        <div class="form-group">
-                            <label for="daya_aktif_reaktif">Daya Aktif Reaktif <span class="text-danger">*</span></label>
-                            <input type="number" value="<?= $daya_aktif_reaktif; ?>" name="daya_aktif_reaktif" class="form-control" id="daya_aktif_reaktif" placeholder="Masukan Daya Aktif Reaktif" value="<?= isset($_POST['daya_aktif_reaktif']) ? $_POST['daya_aktif_reaktif'] : ""; ?>" required="">
-                        </div>
+                        
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <label for="longitude_input">Longitude <span class="text-danger">*</span></label>
                                     <input type="text" value="<?= $longitude; ?>" class="form-control" id="longitude_input" placeholder="Longitude" value="<?= isset($_POST['longitude_input']) ? $_POST['longitude_input'] : ""; ?>" disabled>
-                                    <input type="hidden" value="<?= $longitude; ?>" name="longitude_input" id="longitude_input_h" value="<?= isset($_POST['longitude_input']) ? $_POST['longitude_input'] : ""; ?>" required="">
+                                    <input type="hidden" value="<?= $longitude; ?>" name="longitude_input" id="longitude_input_h" required="">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
                                     <label for="latitude_input">Latitude <span class="text-danger">*</span></label>
                                     <input type="text" value="<?= $latitude; ?>" class="form-control" id="latitude_input" placeholder="Latitude" value="<?= isset($_POST['latitude_input']) ? $_POST['latitude_input'] : ""; ?>" disabled>
-                                    <input type="hidden" value="<?= $latitude; ?>" name="latitude_input" id="latitude_input_h" value="<?= isset($_POST['latitude_input']) ? $_POST['latitude_input'] : ""; ?>" required="">
+                                    <input type="hidden" value="<?= $latitude; ?>" name="latitude_input" id="latitude_input_h" required="">
                                 </div>
                             </div>
                         </div>
@@ -132,7 +150,9 @@ if (isset($_POST['submit'])) {
     $kapasitas_u          = mysqli_real_escape_string($db, $_POST['kapasitas']);
     $arus_u               = mysqli_real_escape_string($db, $_POST['arus']);
     $tegangan_u           = mysqli_real_escape_string($db, $_POST['tegangan']);
-    $daya_aktif_reaktif_u = mysqli_real_escape_string($db, $_POST['daya_aktif_reaktif']);
+    $bahan_bakar_u        = mysqli_real_escape_string($db, $_POST['bahan_bakar']);
+    $tipe_u               = mysqli_real_escape_string($db, $_POST['tipe']);
+    $isolated_u           = (isset($_POST['isolated']) == true) ? true : false;
     $longitude_u          = mysqli_real_escape_string($db, $_POST['longitude_input']);
     $latitude_u           = mysqli_real_escape_string($db, $_POST['latitude_input']);
     if ($_FILES['gambar']['name'] == "") {
@@ -159,7 +179,9 @@ if (isset($_POST['submit'])) {
                                                  kapasitas = '$kapasitas_u',
                                                  arus = '$arus_u',
                                                  tegangan = '$tegangan_u',
-                                                 daya_aktif_reaktif = '$daya_aktif_reaktif_u',
+                                                 bahan_bakar = '$bahan_bakar_u',
+                                                 tipe = '$tipe_u',
+                                                 isolated = '$isolated_u',
                                                  gambar = '$dst_db' WHERE id_pembangkit = '$id'");
 
     // cek hasil query
@@ -192,3 +214,21 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
+
+
+<script type="text/javascript">
+    const tipe_pembangkit = document.getElementById('tipe_pembangkit');
+    const isolated = document.getElementById('isIsolated');
+
+    tipe_pembangkit.addEventListener('change', function(event) {
+        event.preventDefault();
+        let tipe = this.value;
+        if (tipe == 2) {
+            isolated.disabled = false;
+        }else{
+            isolated.disabled = true;
+        }
+    });
+
+
+</script>

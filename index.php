@@ -62,7 +62,7 @@
 
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="index3.html" class="nav-link">Home</a>
+                            <a href="index.php" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">Halaman 2</a>
@@ -117,8 +117,20 @@
                                         </div>
                                         <div class="col-6 px-1">
                                             <div class="bg-light mt-2 px-3 py-2 border border-primary rounded">
-                                                <h6 class="font-weight-bold">Daya Aktif Reaktif</h6>
-                                                <h4><span id="daya_aktif_reaktif"></span> VAR</h4>
+                                                <h6 class="font-weight-bold">Bahan Bakar</h6>
+                                                <h4><span id="bahan_bakar"></span></h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 px-1">
+                                            <div class="bg-light mt-2 px-3 py-2 border border-primary rounded">
+                                                <h6 class="font-weight-bold">Tipe</h6>
+                                                <h4><span id="tipe"></span></h4>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 px-1">
+                                            <div class="bg-light mt-2 px-3 py-2 border border-success rounded">
+                                                <h6 class="font-weight-bold">Isolated</h6>
+                                                <h4><span id="isolated"></span></h4>
                                             </div>
                                         </div>
                                     </div>
@@ -161,7 +173,9 @@
         const kapasitas_i = document.getElementById('kapasitas');
         const tegangan_i = document.getElementById('tegangan');
         const arus_i = document.getElementById('arus');
-        const daya_aktif_reaktif_i = document.getElementById('daya_aktif_reaktif');
+        const bahan_bakar_i = document.getElementById('bahan_bakar');
+        const tipe_i = document.getElementById('tipe');
+        const isolated_i = document.getElementById('isolated');
         side_info.style.display = 'none'
         const map_container = document.getElementById('map_container');
         map_container.classList.replace('col-lg-8','col-lg-12');
@@ -198,7 +212,9 @@
                     const perusahaan = pem.perusahaan;
                     const tegangan = pem.tegangan;
                     const arus = pem.arus;
-                    const daya_aktif_reaktif = pem.daya_aktif_reaktif;
+                    const bahan_bakar = pem.bahan_bakar;
+                    const tipe = (pem.tipe == 1) ? 'Pembelian IPP' : (pem.tipe == 2) ? 'Pembangkit Sendiri Grid' : 'Pembangkit Sewa';
+                    const isolated = (pem.isolated == true) ? 'Sistem Bangka Isolated' : '-';
                     const kapasitas = pem.kapasitas;
                     // DOCUMENT
                     const card_nama_pembangkit = document.getElementById('card_nama_pembangkit');
@@ -212,7 +228,9 @@
                         kapasitas_i.innerHTML = kapasitas;
                         arus_i.innerHTML = arus;
                         tegangan_i.innerHTML = tegangan;
-                        daya_aktif_reaktif_i.innerHTML = daya_aktif_reaktif;
+                        bahan_bakar_i.innerHTML = bahan_bakar;
+                        tipe_i.innerHTML = tipe;
+                        isolated_i.innerHTML = isolated;
                         card_gambar.style.display = 'block';
                         card_gambar.src = gambar;
                     });
