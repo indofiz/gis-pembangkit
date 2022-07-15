@@ -169,6 +169,7 @@
 
     <script src="assets/adminlte/js/adminlte.min.js?v=3.2.0"></script>
     <script>
+        const base_url_h = "http://localhost/gis-pembangkit";
         const side_info = document.getElementById('side_info');
         const kapasitas_i = document.getElementById('kapasitas');
         const tegangan_i = document.getElementById('tegangan');
@@ -204,6 +205,16 @@
             let pembangkit = await getPembangkit();
             let html = '';
             let marker;
+            var LeafIcon = L.Icon.extend({
+                options: {
+                    iconSize:     [32, 32],
+                    popupAnchor:  [-3, -10]
+                }
+            });
+            var merah = new LeafIcon({iconUrl: base_url_h + '/assets/img/icons/merah.png'}),
+                biru = new LeafIcon({iconUrl: base_url_h + '/assets/img/icons/biru.png'}),
+                orange = new LeafIcon({iconUrl: base_url_h + '/assets/img/icons/orange.png'}),
+                hijau = new LeafIcon({iconUrl: base_url_h + '/assets/img/icons/hijau.png'});
             if (pembangkit.status == 200) {
                 pembangkit.data.forEach(pem => {
                     const id_pembangkit = pem.id_pembangkit;
@@ -219,7 +230,22 @@
                     // DOCUMENT
                     const card_nama_pembangkit = document.getElementById('card_nama_pembangkit');
                     const card_gambar = document.getElementById('card_gambar');
-                    marker = new L.marker([pem.latitude, pem.longitude])
+                    let tipe_i;
+                    let icon_map;
+
+                    if (pem.tipe == 1) {
+                        icon_map = hijau;
+                    }
+                    if(pem.tipe == 2){
+                        if (isolated == true) {
+                            icon_map = merah;
+                        }else{
+                            icon_map = biru;
+                        }
+                    }if(pem.tipe == 3){
+                        icon_map = orange;
+                    }
+                    marker = new L.marker([pem.latitude, pem.longitude],{icon:icon_map})
                     .bindPopup(pem.nama_pembangkit)
                     .addTo(map).on('click', function(e) {
                         map_container.classList.replace('col-lg-12','col-lg-8');
