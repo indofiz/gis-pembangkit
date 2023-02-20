@@ -175,11 +175,11 @@
         const tegangan_i = document.getElementById('tegangan');
         const arus_i = document.getElementById('arus');
         const bahan_bakar_i = document.getElementById('bahan_bakar');
-        const tipe_i = document.getElementById('tipe');
-        const isolated_i = document.getElementById('isolated');
+        const tipe_i_con = document.getElementById('tipe');
+        const isolated_i_con = document.getElementById('isolated');
         side_info.style.display = 'none'
         const map_container = document.getElementById('map_container');
-        map_container.classList.replace('col-lg-8','col-lg-12');
+        map_container.classList.replace('col-lg-8', 'col-lg-12');
         //Nampilin Peta
         var map = L.map('map_info').setView([-2.120096, 106.113553], 9);
 
@@ -207,14 +207,22 @@
             let marker;
             var LeafIcon = L.Icon.extend({
                 options: {
-                    iconSize:     [32, 32],
-                    popupAnchor:  [-3, -10]
+                    iconSize: [32, 32],
+                    popupAnchor: [-3, -10]
                 }
             });
-            var merah = new LeafIcon({iconUrl: base_url_h + '/assets/img/icons/merah.png'}),
-                biru = new LeafIcon({iconUrl: base_url_h + '/assets/img/icons/biru.png'}),
-                orange = new LeafIcon({iconUrl: base_url_h + '/assets/img/icons/orange.png'}),
-                hijau = new LeafIcon({iconUrl: base_url_h + '/assets/img/icons/hijau.png'});
+            var merah = new LeafIcon({
+                    iconUrl: base_url_h + '/assets/img/icons/merah.png'
+                }),
+                biru = new LeafIcon({
+                    iconUrl: base_url_h + '/assets/img/icons/biru.png'
+                }),
+                orange = new LeafIcon({
+                    iconUrl: base_url_h + '/assets/img/icons/orange.png'
+                }),
+                hijau = new LeafIcon({
+                    iconUrl: base_url_h + '/assets/img/icons/hijau.png'
+                });
             if (pembangkit.status == 200) {
                 pembangkit.data.forEach(pem => {
                     const id_pembangkit = pem.id_pembangkit;
@@ -236,33 +244,36 @@
                     if (pem.tipe == 1) {
                         icon_map = hijau;
                     }
-                    if(pem.tipe == 2){
+                    if (pem.tipe == 2) {
                         if (isolated == true) {
                             icon_map = merah;
-                        }else{
+                        } else {
                             icon_map = biru;
                         }
-                    }if(pem.tipe == 3){
+                    }
+                    if (pem.tipe == 3) {
                         icon_map = orange;
                     }
-                    marker = new L.marker([pem.latitude, pem.longitude],{icon:icon_map})
-                    .bindPopup(pem.nama_pembangkit)
-                    .addTo(map).on('click', function(e) {
-                        map_container.classList.replace('col-lg-12','col-lg-8');
-                        side_info.style.display = 'block';
-                        card_nama_pembangkit.innerHTML = nama_pembangkit;
-                        kapasitas_i.innerHTML = kapasitas;
-                        arus_i.innerHTML = arus;
-                        tegangan_i.innerHTML = tegangan;
-                        bahan_bakar_i.innerHTML = bahan_bakar;
-                        tipe_i.innerHTML = tipe;
-                        isolated_i.innerHTML = isolated;
-                        card_gambar.style.display = 'block';
-                        card_gambar.src = gambar;
-                    });
+                    marker = new L.marker([pem.latitude, pem.longitude], {
+                            icon: icon_map
+                        })
+                        .bindPopup(pem.nama_pembangkit)
+                        .addTo(map).on('click', function(e) {
+                            map_container.classList.replace('col-lg-12', 'col-lg-8');
+                            side_info.style.display = 'block';
+                            card_nama_pembangkit.innerHTML = nama_pembangkit;
+                            kapasitas_i.innerHTML = kapasitas;
+                            arus_i.innerHTML = arus;
+                            tegangan_i.innerHTML = tegangan;
+                            bahan_bakar_i.innerHTML = bahan_bakar;
+                            tipe_i_con.innerHTML = tipe;
+                            isolated_i_con.innerHTML = isolated;
+                            card_gambar.style.display = 'block';
+                            card_gambar.src = gambar;
+                        });
                 });
             }
-            
+
         }
         renderPembangkit();
     </script>
